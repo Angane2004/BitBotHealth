@@ -1,3 +1,5 @@
+'use client';
+
 import { StatsCard } from '@/components/dashboard/stats-card';
 import { PredictionChart } from '@/components/dashboard/prediction-chart';
 import { AQIWidget } from '@/components/dashboard/aqi-widget';
@@ -11,8 +13,8 @@ export default function DashboardPage() {
         <div className="space-y-6 animate-fade-in">
             {/* Page Header */}
             <div>
-                <h1 className="text-3xl font-bold tracking-tight">Dashboard</h1>
-                <p className="text-muted-foreground mt-1">
+                <h1 className="text-3xl font-bold tracking-tight text-black dark:text-white">Dashboard</h1>
+                <p className="text-gray-600 dark:text-gray-400 mt-1">
                     AI-powered hospital demand forecasting and operational planning
                 </p>
             </div>
@@ -21,32 +23,36 @@ export default function DashboardPage() {
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
                 <StatsCard
                     title="Total Patients"
-                    value="1,284"
-                    description="Across all departments"
+                    value="1,234"
+                    change="+12.5%"
+                    trend="up"
+                    icon={Activity}
+                    iconColor="bg-blue-600"
+                    iconClassName="animate-heartbeat"
+                />
+                <StatsCard
+                    title="Bed Occupancy"
+                    value="87%"
+                    change="+5.2%"
+                    trend="up"
                     icon={Users}
-                    trend={{ value: 12.5, isPositive: true }}
+                    iconColor="bg-green-600"
                 />
                 <StatsCard
                     title="Predicted Surge"
-                    value="+40%"
-                    description="Next 7 days (Diwali)"
+                    value="+23%"
+                    change="Next 7 days"
+                    trend="up"
                     icon={TrendingUp}
-                    trend={{ value: 8.2, isPositive: false }}
-                    className="border-orange-200 dark:border-orange-900"
+                    iconColor="bg-orange-600"
                 />
                 <StatsCard
                     title="Active Alerts"
                     value="3"
-                    description="Requiring immediate action"
+                    change="High Priority"
+                    trend="down"
                     icon={AlertTriangle}
-                    className="border-red-200 dark:border-red-900"
-                />
-                <StatsCard
-                    title="Bed Occupancy"
-                    value="84%"
-                    description="420 of 500 beds"
-                    icon={Activity}
-                    trend={{ value: 5.1, isPositive: true }}
+                    iconColor="bg-red-600"
                 />
             </div>
 

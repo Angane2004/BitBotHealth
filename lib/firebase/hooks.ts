@@ -7,7 +7,8 @@ import {
     orderBy,
     limit,
     where,
-    QueryConstraint
+    QueryConstraint,
+    doc
 } from 'firebase/firestore';
 import {
     Hospital,
@@ -15,7 +16,9 @@ import {
     ActionItem,
     hospitalsCollection,
     predictionsCollection,
-    actionsCollection
+    actionsCollection,
+    userSettingsCollection,
+    UserSettings
 } from './collections';
 
 // Hook to fetch hospitals in real-time
@@ -130,4 +133,44 @@ export function useActions(hospitalId?: string, status?: string) {
     }, [hospitalId, status]);
 
     return { actions, loading, error };
+}
+
+export function useUserSettings(userId?: string) {
+    const [settings, setSettings] = useState<UserSettings | null>(null);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        if (!userId) {
+            return;
+        }
+
+        queueMicrotask(() => setLoading(true));
+        const docRef = doc(userSettingsCollection, userId);
+        const unsubscribe = onSnapshot(
+            docRef,
+            snapshot => {
+                if (snapshot.exists()) {
+                    setSettings({ id: snapshot.id, ...(snapshot.data() as UserSettings) });
+                } else {
+                    setSettings(null);
+                }
+                setLoading(false);
+            },
+            () => setLoading(false)
+        );
+
+        return () => unsubscribe();
+    }, [userId]);
+
+    useEffect(() => {
+        if (userId) {
+            return;
+        }
+        queueMicrotask(() => {
+            setSettings(null);
+            setLoading(false);
+        });
+    }, [userId]);
+
+    return { settings, loading };
 }

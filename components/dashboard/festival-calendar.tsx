@@ -6,7 +6,9 @@ import { mockFestivals } from '@/lib/mock-data';
 import { Calendar } from 'lucide-react';
 import { format, differenceInDays } from 'date-fns';
 
-const getImpactColor = (impact: string) => {
+type ImpactVariant = 'destructive' | 'default' | 'secondary';
+
+const getImpactColor = (impact: string): ImpactVariant => {
   switch (impact) {
     case 'high':
       return 'destructive';
@@ -49,7 +51,7 @@ export function FestivalCalendar() {
                     {format(festival.date, 'MMM dd, yyyy')} • {daysUntil} days
                   </div>
                 </div>
-                <Badge variant={getImpactColor(festival.impact) as any}>
+                <Badge variant={getImpactColor(festival.impact)}>
                   {festival.impact}
                 </Badge>
               </div>

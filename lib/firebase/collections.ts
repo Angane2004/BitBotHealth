@@ -1,9 +1,9 @@
 import {
     collection,
     CollectionReference,
-    DocumentData
+    Timestamp,
 } from 'firebase/firestore';
-import { db } from './firebase';
+import { db } from '../firebase';
 
 // Data Models
 export interface Hospital {
@@ -83,8 +83,28 @@ export interface AuditLog {
     action: string;
     entityType: string;
     entityId: string;
-    changes?: any;
+    changes?: Record<string, unknown>;
     timestamp: Date;
+}
+
+export interface UserSettings {
+    id: string;
+    userId: string;
+    fullName: string;
+    email: string;
+    phone?: string;
+    hospital?: string;
+    emailNotifications: boolean;
+    smsNotifications: boolean;
+    pushNotifications: boolean;
+    forecastDays: number;
+    confidence: number;
+    twoFactorEnabled: boolean;
+    apiKey: string;
+    apiKeyRotatedAt?: Date | Timestamp;
+    updatedAt: Date | Timestamp;
+    deviceLock?: boolean;
+    sessionAlerts?: boolean;
 }
 
 // Collection References
@@ -92,3 +112,4 @@ export const hospitalsCollection = collection(db, 'hospitals') as CollectionRefe
 export const predictionsCollection = collection(db, 'predictions') as CollectionReference<Prediction>;
 export const actionsCollection = collection(db, 'actions') as CollectionReference<ActionItem>;
 export const auditLogsCollection = collection(db, 'auditLogs') as CollectionReference<AuditLog>;
+export const userSettingsCollection = collection(db, 'userSettings') as CollectionReference<UserSettings>;

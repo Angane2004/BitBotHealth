@@ -1,48 +1,46 @@
 import { SignUp } from "@clerk/nextjs";
 import Link from "next/link";
-import { Activity } from "lucide-react";
+import { Logo } from "@/components/logo";
+import { Card } from "@/components/ui/card";
 
 export default function SignUpPage() {
     return (
-        <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 via-white to-purple-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
-            <div className="w-full max-w-md p-8">
-                {/* Logo */}
-                <Link href="/" className="flex items-center justify-center gap-2 mb-8">
-                    <Activity className="h-8 w-8 text-blue-600" />
-                    <span className="text-3xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-                        SwasthyaSense
-                    </span>
-                </Link>
-
-                {/* Title */}
-                <div className="text-center mb-8">
-                    <h1 className="text-2xl font-bold mb-2">Create Your Account</h1>
-                    <p className="text-muted-foreground">
-                        Start predicting hospital demand surges today
-                    </p>
-                </div>
-
-                {/* Clerk Sign Up */}
-                <SignUp
-                    appearance={{
-                        elements: {
-                            rootBox: "mx-auto",
-                            card: "shadow-2xl border-2",
-                            headerTitle: "hidden",
-                            headerSubtitle: "hidden",
-                        }
-                    }}
-                    signInUrl="/login"
-                    forceRedirectUrl="/dashboard"
-                />
-
-                {/* Footer */}
-                <p className="text-center text-sm text-muted-foreground mt-6">
-                    Already have an account?{" "}
-                    <Link href="/login" className="text-blue-600 hover:underline font-medium">
-                        Sign in
+        <div className="min-h-screen relative overflow-hidden bg-transparent">
+            <div className="absolute inset-0 pointer-events-none">
+                <div className="absolute inset-0 bg-gradient-to-br from-white/70 via-white/40 to-white/60 dark:from-black/60 dark:via-black/50 dark:to-black/70" />
+                <div className="absolute bottom-10 left-16 h-40 w-40 rounded-full border border-black/10 dark:border-white/10" style={{ animation: 'orbital-glow 18s linear infinite reverse' }} />
+            </div>
+            <div className="relative z-10 flex items-center justify-center px-4 py-16">
+                <Card className="glass-panel border border-black/5 dark:border-white/5 w-full max-w-md p-8 space-y-8">
+                    <Link href="/" className="flex flex-col items-center gap-3">
+                        <Logo size="small" />
+                        <p className="text-sm uppercase tracking-[0.45em] text-gray-500">Create account</p>
                     </Link>
-                </p>
+                    <div className="space-y-2 text-center">
+                        <h1 className="text-3xl font-semibold text-black dark:text-white">Start your pilot</h1>
+                        <p className="text-sm text-gray-600 dark:text-gray-300">
+                            Join the command center and stay ahead of surges
+                        </p>
+                    </div>
+                    <SignUp
+                        appearance={{
+                            elements: {
+                                rootBox: "mx-auto w-full",
+                                card: "shadow-none border border-black/5 dark:border-white/10 backdrop-blur-sm bg-white/90 dark:bg-black/50 rounded-2xl",
+                                headerTitle: "hidden",
+                                headerSubtitle: "hidden",
+                            }
+                        }}
+                        signInUrl="/login"
+                        forceRedirectUrl="/dashboard"
+                    />
+                    <p className="text-center text-sm text-gray-600 dark:text-gray-300">
+                        Already on board?{" "}
+                        <Link href="/login" className="underline underline-offset-4 hover:text-black dark:hover:text-white">
+                            Sign in
+                        </Link>
+                    </p>
+                </Card>
             </div>
         </div>
     );

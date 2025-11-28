@@ -1,38 +1,40 @@
 'use client';
 
-import { Bell, Menu } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
+import { Logo } from '@/components/logo';
+import { ThemeToggle } from '@/components/theme-toggle';
+import { Menu } from 'lucide-react';
+import { NotificationBell } from '@/components/layout/notification-bell';
 
 interface HeaderProps {
-    onMenuClick?: () => void;
+    onMenuClick: () => void;
 }
 
 export function Header({ onMenuClick }: HeaderProps) {
     return (
-        <header className="sticky top-0 z-10 flex h-16 items-center gap-4 border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 px-6">
-            <Button
-                variant="ghost"
-                size="icon"
-                className="md:hidden"
-                onClick={onMenuClick}
-            >
-                <Menu className="h-5 w-5" />
-            </Button>
-
-            <div className="flex-1">
-                <h1 className="text-lg font-semibold">Dashboard</h1>
-            </div>
-
-            <Button variant="outline" size="icon" className="relative">
-                <Bell className="h-5 w-5" />
-                <Badge
-                    variant="destructive"
-                    className="absolute -top-1 -right-1 h-5 w-5 flex items-center justify-center p-0 text-xs"
+        <header className="sticky top-0 z-30 border-b border-white/40 dark:border-white/10 bg-white/70 dark:bg-black/40 backdrop-blur-2xl">
+            <div className="flex h-20 items-center px-6 gap-4">
+                <button
+                    onClick={onMenuClick}
+                    className="lg:hidden p-2 rounded-full border border-black/10 dark:border-white/15 hover:bg-black/5 dark:hover:bg-white/10 transition-colors"
                 >
-                    3
-                </Badge>
-            </Button>
+                    <Menu className="h-6 w-6 text-black dark:text-white" />
+                </button>
+
+                {/* Logo */}
+                <div className="flex-1">
+                    <Logo size="small" />
+                </div>
+
+                {/* Right Side Actions */}
+                <div className="flex items-center gap-3">
+                    <NotificationBell />
+                    <div className="hidden md:flex items-center gap-2 rounded-full border border-black/10 dark:border-white/15 px-4 py-2 text-xs uppercase tracking-[0.3em] text-gray-500 dark:text-gray-300">
+                        <span className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse" />
+                        Live
+                    </div>
+                    <ThemeToggle />
+                </div>
+            </div>
         </header>
     );
 }

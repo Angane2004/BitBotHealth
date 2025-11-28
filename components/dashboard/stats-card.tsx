@@ -5,48 +5,40 @@ import { cn } from '@/lib/utils';
 interface StatsCardProps {
     title: string;
     value: string | number;
-    description?: string;
+    change?: string;
+    trend?: 'up' | 'down';
     icon: LucideIcon;
-    trend?: {
-        value: number;
-        isPositive: boolean;
-    };
+    iconColor?: string;
     className?: string;
+    iconClassName?: string;
 }
 
 export function StatsCard({
     title,
     value,
-    description,
-    icon: Icon,
+    change,
     trend,
+    icon: Icon,
+    iconColor = 'bg-blue-600',
     className,
+    iconClassName,
 }: StatsCardProps) {
     return (
-        <Card className={cn('hover:shadow-lg transition-shadow', className)}>
+        <Card className={cn('hover:shadow-lg transition-all duration-200 border-2 bg-white dark:bg-gray-900', className)}>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium">{title}</CardTitle>
-                <Icon className="h-4 w-4 text-muted-foreground" />
+                <CardTitle className="text-sm font-medium text-black dark:text-white">{title}</CardTitle>
+                <div className={cn('p-2 rounded-lg', iconColor)}>
+                    <Icon className={cn('h-5 w-5 text-white', iconClassName)} />
+                </div>
             </CardHeader>
             <CardContent>
-                <div className="text-2xl font-bold">{value}</div>
-                {description && (
-                    <p className="text-xs text-muted-foreground mt-1">{description}</p>
-                )}
-                {trend && (
-                    <div className="flex items-center mt-2">
-                        <span
-                            className={cn(
-                                'text-xs font-medium',
-                                trend.isPositive ? 'text-green-600' : 'text-red-600'
-                            )}
-                        >
-                            {trend.isPositive ? '↑' : '↓'} {Math.abs(trend.value)}%
-                        </span>
-                        <span className="text-xs text-muted-foreground ml-1">
-                            from last week
-                        </span>
-                    </div>
+                <div className="text-3xl font-bold text-black dark:text-white">{value}</div>
+                {change && (
+                    <p className="text-xs text-gray-600 dark:text-gray-400 mt-1 flex items-center gap-1">
+                        {trend === 'up' && <span className="text-green-600">↑</span>}
+                        {trend === 'down' && <span className="text-red-600">↓</span>}
+                        {change}
+                    </p>
                 )}
             </CardContent>
         </Card>
