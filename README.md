@@ -19,6 +19,7 @@
 - **Frontend**: Next.js 14, React 18, TypeScript
 - **Styling**: Tailwind CSS, shadcn/ui
 - **Authentication**: Clerk
+- **LLM**: Ollama
 - **Database**: Firebase Firestore
 - **Charts**: Recharts
 
