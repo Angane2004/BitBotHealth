@@ -53,12 +53,32 @@ export default function HospitalsPage() {
         ...mockDummyHospitals.map(h => ({
             id: h.id,
             name: h.name,
-            location: { city: h.city },
-            capacity: { totalBeds: h.totalBeds },
-            currentOccupancy: { total: h.occupiedBeds },
+            location: {
+                city: h.city,
+                lat: 0,
+                lng: 0,
+                address: h.city,
+            },
+            capacity: {
+                totalBeds: h.totalBeds,
+                icuBeds: 0,
+                emergencyBeds: 0,
+            },
+            currentOccupancy: {
+                total: h.occupiedBeds,
+                icu: 0,
+                emergency: 0,
+            },
             staff: h.staff,
             departments: h.departments,
-        }))
+            inventory: {
+                oxygenCylinders: 0,
+                ppeMasks: 0,
+                asthmaKits: 0,
+            },
+            createdAt: new Date(),
+            updatedAt: new Date(),
+        } as Hospital))
     ];
 
     // Filter by selected location
