@@ -48,7 +48,8 @@ export function RecommendationsPanel() {
             return action.id;
         }
 
-        const created = await addDoc(actionsCollection, {
+
+        const newAction: Omit<ActionItem, 'id'> = {
             hospitalId: action.hospitalId ?? 'demo-hospital',
             predictionId: action.predictionId ?? action.id ?? 'generated-mock',
             priority: action.priority ?? 'medium',
@@ -59,9 +60,10 @@ export function RecommendationsPanel() {
             estimatedCost: action.estimatedCost,
             status,
             dueDate: action.dueDate ?? new Date(),
-            createdAt: serverTimestamp(),
-            updatedAt: serverTimestamp(),
-        });
+            createdAt: new Date(),
+            updatedAt: new Date(),
+        };
+        const created = await addDoc(actionsCollection, newAction as any);
         return created.id;
     };
 

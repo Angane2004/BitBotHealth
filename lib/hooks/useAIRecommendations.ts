@@ -4,8 +4,26 @@ import { useMemo, useState } from 'react';
 import { mockAIRecommendations, AIRecommendation } from '../mock-data';
 import { useLocationStore } from './useLocation';
 import { addDoc, serverTimestamp } from 'firebase/firestore';
-import { actionsCollection } from '../firebase/collections';
+import { actionsCollection, ActionItem } from '../firebase/collections';
 import { toast } from 'sonner';
+
+// Map recommendation types to ActionItem categories
+const mapTypeToCategory = (type: string): ActionItem['category'] => {
+    switch (type) {
+        case 'resources':
+        case 'supplies':
+            return 'supplies';
+        case 'alert':
+        case 'advisory':
+            return 'advisory';
+        case 'preparation':
+        case 'infrastructure':
+            return 'infrastructure';
+        case 'staffing':
+        default:
+            return 'staffing';
+    }
+};
 
 export function useAIRecommendations() {
     const { location } = useLocationStore();
@@ -32,18 +50,20 @@ export function useAIRecommendations() {
         setProcessing(id);
         try {
             // Store to Firebase actions
-            await addDoc(actionsCollection, {
+            const newAction: Omit<import('../firebase/collections').ActionItem, 'id'> = {
                 hospitalId: 'ai-generated',
                 predictionId: id,
                 priority: recommendation.priority,
-                category: recommendation.type,
+                category: mapTypeToCategory(recommendation.type),
                 title: recommendation.title,
                 description: recommendation.description,
                 rationale: recommendation.rationale,
                 status: 'approved',
-                createdAt: serverTimestamp(),
-                updatedAt: serverTimestamp(),
-            });
+                dueDate: new Date(),
+                createdAt: new Date(),
+                updatedAt: new Date(),
+            };
+            await addDoc(actionsCollection, newAction as any);
 
             // Remove from recommendations list
             setRecommendations(prev => prev.filter(r => r.id !== id));
@@ -68,18 +88,20 @@ export function useAIRecommendations() {
         setProcessing(id);
         try {
             // Store rejection to Firebase for learning
-            await addDoc(actionsCollection, {
+            const newAction: Omit<import('../firebase/collections').ActionItem, 'id'> = {
                 hospitalId: 'ai-generated',
                 predictionId: id,
                 priority: recommendation.priority,
-                category: recommendation.type,
+                category: mapTypeToCategory(recommendation.type),
                 title: recommendation.title,
                 description: recommendation.description,
                 rationale: recommendation.rationale,
                 status: 'rejected',
-                createdAt: serverTimestamp(),
-                updatedAt: serverTimestamp(),
-            });
+                dueDate: new Date(),
+                createdAt: new Date(),
+                updatedAt: new Date(),
+            };
+            await addDoc(actionsCollection, newAction as any);
 
             // Remove from recommendations list
             setRecommendations(prev => prev.filter(r => r.id !== id));
