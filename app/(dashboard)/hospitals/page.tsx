@@ -15,6 +15,8 @@ import { db } from '@/lib/firebase';
 import { useHospitals } from '@/lib/firebase/hooks';
 import { Hospital } from '@/lib/firebase/collections';
 import { useLiveWeather } from '@/lib/hooks/weather';
+import { useLocationStore } from '@/lib/hooks/useLocation';
+import { mockDummyHospitals } from '@/lib/mock-data';
 
 function HospitalWeatherTag({ city }: { city?: string }) {
     const { snapshot } = useLiveWeather({ city: city || 'Delhi', refreshInterval: 1000 * 60 * 3 });
@@ -42,7 +44,27 @@ export default function HospitalsPage() {
         totalBeds: '',
         departments: '',
     });
-    const { hospitals, loading } = useHospitals();
+    const { hospitals: firebaseHospitals, loading } = useHospitals();
+    const { location } = useLocationStore();
+
+    // Merge Firebase hospitals with dummy hospitals
+    const allHospitals = [
+        ...firebaseHospitals,
+        ...mockDummyHospitals.map(h => ({
+            id: h.id,
+            name: h.name,
+            location: { city: h.city },
+            capacity: { totalBeds: h.totalBeds },
+            currentOccupancy: { total: h.occupiedBeds },
+            staff: h.staff,
+            departments: h.departments,
+        }))
+    ];
+
+    // Filter by selected location
+    const hospitals = location?.city
+        ? allHospitals.filter(h => h.location?.city === location.city)
+        : allHospitals;
 
     const handleAddHospital = async () => {
         try {
@@ -124,10 +146,13 @@ export default function HospitalsPage() {
             <div className="flex items-center justify-between">
                 <div>
                     <h1 className="text-3xl font-bold tracking-tight text-black dark:text-white">
-                        Hospitals
+                        Hospitals {location?.city && `in ${location.city}`}
                     </h1>
                     <p className="text-gray-600 dark:text-gray-400 mt-1">
-                        Manage and monitor all hospital locations
+                        {location?.city
+                            ? `Showing ${hospitals.length} hospital${hospitals.length !== 1 ? 's' : ''} in ${location.city}`
+                            : `Manage and monitor all hospital locations (${hospitals.length} total)`
+                        }
                     </p>
                 </div>
 
@@ -254,8 +279,8 @@ export default function HospitalsPage() {
                                     <div className="h-2 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
                                         <div
                                             className={`h-full transition-all duration-500 ${isHighOccupancy
-                                                    ? 'bg-gradient-to-r from-red-500 to-orange-500'
-                                                    : 'bg-black dark:bg-white'
+                                                ? 'bg-gradient-to-r from-red-500 to-orange-500'
+                                                : 'bg-black dark:bg-white'
                                                 }`}
                                             style={{ width: `${occupancyPercentage}%` }}
                                         />
@@ -304,7 +329,10 @@ export default function HospitalsPage() {
                 {!loading && hospitals.length === 0 && (
                     <Card className="border-2 bg-white/80 dark:bg-white/5 col-span-full">
                         <CardContent className="p-8 text-center text-gray-600 dark:text-gray-300">
-                            No hospitals yet. Add your first location to start tracking.
+                            {location?.city
+                                ? `No hospitals found in ${location.city}. Try selecting a different location.`
+                                : 'No hospitals yet. Add your first location to start tracking.'
+                            }
                         </CardContent>
                     </Card>
                 )}

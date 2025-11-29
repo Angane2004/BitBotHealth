@@ -101,12 +101,12 @@ export function Sidebar({ collapsed, onToggle }: SidebarProps) {
                         </div>
                     )}
                     <div className="flex items-center justify-between px-3 gap-2">
-                        {!collapsed && <ThemeToggle />}
-                        {!collapsed && (
+                        {/* {!collapsed && <ThemeToggle />} */}
+                        {/* {!collapsed && (
                             <Link href="/settings" className="text-xs text-gray-600 dark:text-gray-300 underline">
                                 Settings
                             </Link>
-                        )}
+                        )} */}
                         <button
                             onClick={handleToggle}
                             className="p-2 rounded-full border border-black/10 dark:border-white/15 hover:bg-black/5 dark:hover:bg-white/10 transition-colors ml-auto"

@@ -8,6 +8,8 @@ import { useMemo, useState, useTransition } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { usePredictions } from '@/lib/firebase/hooks';
 import { useLiveWeather } from '@/lib/hooks/weather';
+import { useUpcomingFestival } from '@/lib/hooks/useUpcomingFestival';
+import { useLocationStore } from '@/lib/hooks/useLocation';
 import { addDoc, doc, serverTimestamp, updateDoc } from 'firebase/firestore';
 import { actionsCollection, predictionsCollection } from '@/lib/firebase/collections';
 import { toast } from 'sonner';
@@ -37,7 +39,9 @@ export default function PredictionsPage() {
     const [activeTab, setActiveTab] = useState('emergency');
     const [pending, startTransition] = useTransition();
     const { predictions, loading: predictionsLoading } = usePredictions(undefined, 7);
-    const { snapshot: weather } = useLiveWeather({ city: 'Delhi' });
+    const { location } = useLocationStore();
+    const { snapshot: weather } = useLiveWeather({ city: location?.city || 'Delhi' });
+    const upcomingFestival = useUpcomingFestival();
 
     const grouped = useMemo(() => {
         if (!predictions.length) return fallbackPredictions;
@@ -110,7 +114,7 @@ export default function PredictionsPage() {
                         <h1 className="text-3xl font-bold tracking-tight text-black dark:text-white">Live surge intelligence</h1>
                         <p className="text-gray-600 dark:text-gray-400">
                             AI-powered patient volume forecasts for the next 7-21 days using real time weather + AQI feeds.
-                </p>
+                        </p>
                     </div>
                     {weather && (
                         <div className="ml-auto rounded-2xl border border-black/5 dark:border-white/10 px-6 py-4 bg-white/70 dark:bg-white/10 shadow-lg text-sm">
@@ -145,8 +149,7 @@ export default function PredictionsPage() {
                             <button
                                 key={dept.id}
                                 onClick={() => setActiveTab(dept.id)}
-                                className={`flex-1 relative z-10 flex items-center justify-center gap-2 px-4 py-3 rounded-xl transition-colors duration-200 ${
-                                    activeTab === dept.id ? 'text-black dark:text-white' : 'text-gray-500 hover:text-black dark:hover:text-white'
+                                className={`flex-1 relative z-10 flex items-center justify-center gap-2 px-4 py-3 rounded-xl transition-colors duration-200 ${activeTab === dept.id ? 'text-black dark:text-white' : 'text-gray-500 hover:text-black dark:hover:text-white'
                                     }`}
                             >
                                 <dept.icon className={`h-4 w-4 ${dept.iconClass ?? ''}`} />
@@ -164,30 +167,30 @@ export default function PredictionsPage() {
                         exit={{ opacity: 0, y: -20 }}
                         transition={{ duration: 0.3, ease: 'easeOut' }}
                         className="space-y-6"
-                        >
-                            <div className="grid gap-4 md:grid-cols-3">
+                    >
+                        <div className="grid gap-4 md:grid-cols-3">
                             <Card className="border-0 glass-panel">
-                                    <CardHeader className="pb-3">
+                                <CardHeader className="pb-3">
                                     <CardDescription>Current Patients</CardDescription>
                                     <CardTitle className="text-3xl">{activePrediction?.current ?? '—'}</CardTitle>
-                                    </CardHeader>
-                                </Card>
+                                </CardHeader>
+                            </Card>
                             <Card className="border-0 glass-panel">
-                                    <CardHeader className="pb-3">
+                                <CardHeader className="pb-3">
                                     <CardDescription>Predicted (Tomorrow)</CardDescription>
                                     <CardTitle className="text-3xl">{activePrediction?.predicted ?? '—'}</CardTitle>
-                                    </CardHeader>
-                                </Card>
+                                </CardHeader>
+                            </Card>
                             <Card className="border-0 glass-panel">
-                                    <CardHeader className="pb-3">
+                                <CardHeader className="pb-3">
                                     <CardDescription>Expected Change</CardDescription>
                                     <CardTitle className="text-3xl flex items-center gap-2 text-amber-500">
                                         <TrendingUp className="h-6 w-6" />
                                         +{activePrediction?.change ?? '0'}%
-                                        </CardTitle>
-                                    </CardHeader>
-                                </Card>
-                            </div>
+                                    </CardTitle>
+                                </CardHeader>
+                            </Card>
+                        </div>
 
                         <div className="flex flex-wrap items-center gap-3">
                             <button
@@ -212,34 +215,41 @@ export default function PredictionsPage() {
                         <PredictionChart department={activeTab} />
 
                         <Card className="border-0 glass-panel">
-                                <CardHeader>
+                            <CardHeader>
                                 <CardTitle>Key Drivers</CardTitle>
                                 <CardDescription>Environmental and historical data affecting the forecast</CardDescription>
-                                </CardHeader>
-                                <CardContent>
-                                    <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+                            </CardHeader>
+                            <CardContent>
+                                <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
                                     {staticFactors.map((factor) => (
                                         <div key={factor.label} className="flex items-start gap-3 p-4 rounded-2xl bg-white/80 dark:bg-white/10 border border-black/5 dark:border-white/10">
                                             <div className="p-2 rounded-xl bg-gradient-to-br from-black/80 to-black/60 dark:from-white dark:to-gray-200 text-white dark:text-black">
                                                 <factor.icon className="h-5 w-5" />
-                                                </div>
-                                                <div className="flex-1 min-w-0">
-                                                    <p className="text-sm font-medium truncate text-black dark:text-white">{factor.label}</p>
+                                            </div>
+                                            <div className="flex-1 min-w-0">
+                                                <p className="text-sm font-medium truncate text-black dark:text-white">{factor.label}</p>
                                                 <p className={`text-lg font-bold ${factor.color}`}>
                                                     {factor.accessor === 'aqi' && (weather?.aqi ?? '—')}
                                                     {factor.accessor === 'temperature' && `${weather?.temperature ?? '—'}°C`}
-                                                    {factor.accessor === 'festival' && 'Navratri (T-5)'}
+                                                    {factor.accessor === 'festival' && upcomingFestival && (
+                                                        <span className="text-orange-600 dark:text-orange-500">
+                                                            {upcomingFestival.name} ({upcomingFestival.countdownText})
+                                                        </span>
+                                                    )}
+                                                    {factor.accessor === 'festival' && !upcomingFestival && '—'}
                                                     {factor.accessor === 'trend' && 'Increasing'}
                                                 </p>
                                                 <Badge variant="outline" className="mt-1 text-xs border-black/30 dark:border-white/30">
-                                                        {factor.status}
-                                                    </Badge>
-                                                </div>
+                                                    {factor.accessor === 'festival' && upcomingFestival
+                                                        ? `${upcomingFestival.impact}-impact`
+                                                        : factor.status}
+                                                </Badge>
                                             </div>
-                                        ))}
-                                    </div>
-                                </CardContent>
-                            </Card>
+                                        </div>
+                                    ))}
+                                </div>
+                            </CardContent>
+                        </Card>
                     </motion.div>
                 </AnimatePresence>
             </div>

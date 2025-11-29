@@ -4,6 +4,7 @@ import { Logo } from '@/components/logo';
 import { ThemeToggle } from '@/components/theme-toggle';
 import { Menu } from 'lucide-react';
 import { NotificationBell } from '@/components/layout/notification-bell';
+import { LocationSelector } from '@/components/layout/location-selector';
 
 interface HeaderProps {
     onMenuClick: () => void;
@@ -27,6 +28,7 @@ export function Header({ onMenuClick }: HeaderProps) {
 
                 {/* Right Side Actions */}
                 <div className="flex items-center gap-3">
+                    <LocationSelector />
                     <NotificationBell />
                     <div className="hidden md:flex items-center gap-2 rounded-full border border-black/10 dark:border-white/15 px-4 py-2 text-xs uppercase tracking-[0.3em] text-gray-500 dark:text-gray-300">
                         <span className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse" />

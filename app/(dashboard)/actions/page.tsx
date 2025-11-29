@@ -16,7 +16,7 @@ import { actionsCollection } from '@/lib/firebase/collections';
 
 const statusTabs = [
     { value: 'all', label: 'All Actions' },
-    { value: 'pending', label: 'Pending' },
+    { value: 'rejected', label: 'Rejected' },
     { value: 'approved', label: 'Approved' },
     { value: 'completed', label: 'Completed' },
 ];
@@ -257,8 +257,8 @@ export default function ActionsPage() {
                                 key={tab.value}
                                 onClick={() => setActiveTab(tab.value)}
                                 className={`flex-1 relative z-10 flex items-center justify-center gap-2 px-4 py-3 rounded-md transition-colors duration-200 whitespace-nowrap ${activeTab === tab.value
-                                        ? 'text-white dark:text-black'
-                                        : 'text-gray-700 dark:text-gray-300 hover:text-black dark:hover:text-white'
+                                    ? 'text-white dark:text-black'
+                                    : 'text-gray-700 dark:text-gray-300 hover:text-black dark:hover:text-white'
                                     }`}
                             >
                                 <span className="font-medium">{tab.label}</span>
@@ -324,6 +324,12 @@ export default function ActionsPage() {
                                             <Badge className="bg-green-100 text-green-700 dark:bg-green-900 dark:text-green-300 border-green-500">
                                                 <CheckCircle2 className="h-3 w-3 mr-1" />
                                                 Approved
+                                            </Badge>
+                                        )}
+                                        {action.status === 'rejected' && (
+                                            <Badge className="bg-red-100 text-red-700 dark:bg-red-900 dark:text-red-300 border-red-500">
+                                                <XCircle className="h-3 w-3 mr-1" />
+                                                Rejected
                                             </Badge>
                                         )}
                                         {action.status === 'completed' && (

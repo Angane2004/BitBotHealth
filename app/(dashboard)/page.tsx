@@ -4,7 +4,7 @@ import { StatsCard } from '@/components/dashboard/stats-card';
 import { PredictionChart } from '@/components/dashboard/prediction-chart';
 import { AQIWidget } from '@/components/dashboard/aqi-widget';
 import { FestivalCalendar } from '@/components/dashboard/festival-calendar';
-import { RecommendationsPanel } from '@/components/ai/recommendations-panel';
+import { AIRecommendations } from '@/components/dashboard/ai-recommendations';
 import { ResourceOverview } from '@/components/hospital/resource-overview';
 import { Activity, Users, TrendingUp, AlertTriangle } from 'lucide-react';
 
@@ -70,7 +70,7 @@ export default function DashboardPage() {
 
                 {/* Right Column - Recommendations and Resources */}
                 <div className="space-y-6">
-                    <RecommendationsPanel />
+                    <AIRecommendations />
                     <ResourceOverview />
                 </div>
             </div>

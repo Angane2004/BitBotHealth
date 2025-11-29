@@ -39,9 +39,36 @@ export function useLiveWeather({
   const apiKey = process.env.NEXT_PUBLIC_OPENWEATHER_API_KEY;
 
   const fetchWeather = useCallback(async () => {
+    // Log API key status for debugging
+    console.log('OpenWeather API Key available:', !!apiKey);
+
     if (!apiKey) {
-      setError('Missing NEXT_PUBLIC_OPENWEATHER_API_KEY');
+      setError('OpenWeather API key not configured. Please add NEXT_PUBLIC_OPENWEATHER_API_KEY to .env.local');
       setLoading(false);
+
+      // Use mock data as absolute fallback
+      const { cityWeatherData } = await import('@/lib/mock-data');
+      const mockData = cityWeatherData[city] || cityWeatherData['Delhi'];
+
+      const snapshotPayload: LiveWeatherSnapshot = {
+        city: city,
+        temperature: mockData.temperature,
+        humidity: mockData.humidity,
+        description: mockData.conditions,
+        wind: 5,
+        icon: '01d',
+        aqi: mockData.aqi,
+        alertLevel: mockData.aqi > 200 ? 'critical' : mockData.aqi > 120 ? 'warning' : 'normal',
+        alertMessage:
+          mockData.aqi > 200
+            ? 'Air quality is hazardous. Trigger respiratory surge plan.'
+            : mockData.aqi > 120
+              ? 'Air quality deteriorating — prep advisory.'
+              : 'Conditions stable. Continue monitoring.',
+        lastUpdated: Date.now(),
+      };
+
+      setSnapshot(snapshotPayload);
       return;
     }
 
