@@ -12,7 +12,7 @@ import { toast } from 'sonner';
 import { useMemo, useState } from 'react';
 import { updateDoc, doc, serverTimestamp, addDoc } from 'firebase/firestore';
 import { useActions } from '@/lib/firebase/hooks';
-import { actionsCollection } from '@/lib/firebase/collections';
+import { actionsCollection, ActionItem } from '@/lib/firebase/collections';
 
 const statusTabs = [
     { value: 'all', label: 'All Actions' },
@@ -45,7 +45,7 @@ export default function ActionsPage() {
     };
 
     const persistMockAction = async (action: typeof dataset[number], status: 'approved' | 'rejected') => {
-        await addDoc(actionsCollection, {
+        const newAction: Omit<ActionItem, 'id'> = {
             hospitalId: action.hospitalId ?? 'demo-hospital',
             predictionId: action.predictionId ?? action.id ?? 'generated-mock',
             priority: action.priority ?? 'medium',
@@ -56,9 +56,10 @@ export default function ActionsPage() {
             estimatedCost: action.estimatedCost,
             status,
             dueDate: action.dueDate ?? new Date(),
-            createdAt: serverTimestamp(),
-            updatedAt: serverTimestamp(),
-        });
+            createdAt: new Date(),
+            updatedAt: new Date(),
+        };
+        await addDoc(actionsCollection, newAction as any);
     };
 
     const handleApprove = async (action: typeof dataset[number]) => {
