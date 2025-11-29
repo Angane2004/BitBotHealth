@@ -22,10 +22,10 @@ const departments = [
 ];
 
 const fallbackPredictions = {
-    emergency: { current: 85, predicted: 95, change: 11.8, trend: 'up', hospitalId: 'demo-hospital' },
-    respiratory: { current: 120, predicted: 145, change: 20.8, trend: 'up', hospitalId: 'demo-hospital' },
-    opd: { current: 200, predicted: 210, change: 5.0, trend: 'up', hospitalId: 'demo-hospital' },
-    icu: { current: 65, predicted: 68, change: 4.6, trend: 'up', hospitalId: 'demo-hospital' },
+    emergency: { current: 85, predicted: 95, change: 11.8, trend: 'up', hospitalId: 'demo-hospital', id: undefined as string | undefined },
+    respiratory: { current: 120, predicted: 145, change: 20.8, trend: 'up', hospitalId: 'demo-hospital', id: undefined as string | undefined },
+    opd: { current: 200, predicted: 210, change: 5.0, trend: 'up', hospitalId: 'demo-hospital', id: undefined as string | undefined },
+    icu: { current: 65, predicted: 68, change: 4.6, trend: 'up', hospitalId: 'demo-hospital', id: undefined as string | undefined },
 };
 
 const staticFactors = [
@@ -66,7 +66,7 @@ export default function PredictionsPage() {
         if (!activePrediction) return;
         startTransition(async () => {
             try {
-                await addDoc(actionsCollection, {
+                const newAction: Omit<import('@/lib/firebase/collections').ActionItem, 'id'> = {
                     hospitalId: activePrediction.hospitalId,
                     predictionId: activePrediction.id ?? `${activeTab}-demo`,
                     priority: decision === 'approved' ? 'high' : 'medium',
@@ -77,9 +77,11 @@ export default function PredictionsPage() {
                         ? 'Conditions meet the threshold and weather indicators trending up.'
                         : 'Triaged due to manageable load and stable resources.',
                     status: decision === 'approved' ? 'approved' : 'rejected',
-                    createdAt: serverTimestamp(),
-                    updatedAt: serverTimestamp(),
-                });
+                    dueDate: new Date(),
+                    createdAt: new Date(),
+                    updatedAt: new Date(),
+                };
+                await addDoc(actionsCollection, newAction as any);
 
                 if (activePrediction.id) {
                     await updateDoc(doc(predictionsCollection, activePrediction.id), {
