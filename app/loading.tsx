@@ -77,7 +77,6 @@ export default function LoadingPage() {
                   className="h-full bg-black dark:bg-white"
                   style={{ width: progressPercentage }}
                   initial={{ width: '0%' }}
-                  animate={{ width: progressPercentage }}
                   transition={{ duration: 0.5, ease: "easeOut" }}
                 />
               </div>
