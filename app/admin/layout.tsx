@@ -26,6 +26,12 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         }
     }, [isAuthenticated, pathname, router]);
 
+    // Allow login page to render without sidebar
+    if (pathname === '/admin/login') {
+        return <>{children}</>;
+    }
+
+    // For other admin pages, require authentication
     if (!isAuthenticated) {
         return null;
     }
@@ -65,8 +71,8 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                                     <Button
                                         variant={isActive ? 'default' : 'ghost'}
                                         className={`w-full justify-start gap-3 h-12 transition-all duration-200 ${isActive
-                                                ? 'bg-white dark:bg-black text-black dark:text-white hover:bg-gray-100 dark:hover:bg-gray-900'
-                                                : 'text-gray-400 dark:text-gray-600 hover:text-white dark:hover:text-black hover:bg-gray-900 dark:hover:bg-gray-100'
+                                            ? 'bg-white dark:bg-black text-black dark:text-white hover:bg-gray-100 dark:hover:bg-gray-900'
+                                            : 'text-gray-400 dark:text-gray-600 hover:text-white dark:hover:text-black hover:bg-gray-900 dark:hover:bg-gray-100'
                                             }`}
                                     >
                                         <div className={`p-2 rounded-lg bg-gradient-to-br ${item.color} shadow-lg`}>

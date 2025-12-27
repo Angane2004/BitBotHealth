@@ -72,13 +72,13 @@ export default function LoadingPage() {
             </div>
 
             <div className="w-full space-y-2">
-              <div className="h-3 rounded-full bg-gray-200 dark:bg-gray-800 overflow-hidden border border-gray-300 dark:border-gray-700">
+              <div className="h-4 rounded-full bg-gray-300 dark:bg-gray-700 overflow-hidden border-2 border-black/20 dark:border-white/20 shadow-inner">
                 <motion.div
-                  className="h-full rounded-full bg-gradient-to-r from-black via-gray-700 to-black dark:from-white dark:via-gray-300 dark:to-white"
+                  className="h-full rounded-full bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 shadow-lg"
                   style={{ width: progressPercentage }}
                 />
               </div>
-              <div className="flex items-center justify-between text-xs uppercase tracking-[0.3em] text-gray-500">
+              <div className="flex items-center justify-between text-xs uppercase tracking-[0.3em] text-gray-600 dark:text-gray-400 font-semibold">
                 <span>systems</span>
                 <span>{progress}%</span>
               </div>

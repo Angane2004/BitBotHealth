@@ -185,14 +185,14 @@ export default function RootPage() {
             <a href="#process" className="hover:text-black dark:hover:text-white transition">Process</a>
           </nav>
           <div className="flex items-center gap-3">
-            <Link href="/admin/login">
+            {/* <Link href="/admin/login">
               <Button variant="ghost" size="lg" className="text-black dark:text-white hover:bg-black/5 dark:hover:bg-white/10 rounded-full gap-2">
                 <div className="p-1 rounded-lg bg-gradient-to-br from-blue-500 to-purple-500">
                   <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10" /></svg>
                 </div>
                 Admin
               </Button>
-            </Link>
+            </Link> */}
             <Link href="/login">
               <Button variant="ghost" size="lg" className="text-black dark:text-white hover:bg-black/5 dark:hover:bg-white/10 rounded-full">
                 Login
