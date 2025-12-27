@@ -17,6 +17,7 @@ import { Hospital } from '@/lib/firebase/collections';
 import { useLiveWeather } from '@/lib/hooks/weather';
 import { useLocationStore } from '@/lib/hooks/useLocation';
 import { mockDummyHospitals } from '@/lib/mock-data';
+import { LocationSelector } from '@/components/layout/location-selector';
 
 function HospitalWeatherTag({ city }: { city?: string }) {
     const { snapshot } = useLiveWeather({ city: city || 'Delhi', refreshInterval: 1000 * 60 * 3 });
@@ -176,74 +177,79 @@ export default function HospitalsPage() {
                     </p>
                 </div>
 
-                {/* Add Hospital Dialog */}
-                <Dialog open={showAddDialog} onOpenChange={setShowAddDialog}>
-                    <DialogTrigger asChild>
-                        <Button className="bg-black hover:bg-gray-800 dark:bg-white dark:hover:bg-gray-200 text-white dark:text-black transition-all duration-200 hover:scale-105 shadow-lg">
-                            <Plus className="mr-2 h-4 w-4" />
-                            Add Hospital
-                        </Button>
-                    </DialogTrigger>
-                    <DialogContent className="bg-white dark:bg-gray-900">
-                        <DialogHeader>
-                            <DialogTitle className="text-black dark:text-white">Add New Hospital</DialogTitle>
-                            <DialogDescription className="text-gray-600 dark:text-gray-400">
-                                Enter the details of the new hospital
-                            </DialogDescription>
-                        </DialogHeader>
-                        <div className="space-y-4 py-4">
-                            <div className="space-y-2">
-                                <Label htmlFor="name" className="text-black dark:text-white">Hospital Name</Label>
-                                <Input
-                                    id="name"
-                                    value={newHospital.name}
-                                    onChange={(e) => setNewHospital({ ...newHospital, name: e.target.value })}
-                                    placeholder="Apollo Hospital"
-                                    className="border-black dark:border-white"
-                                />
-                            </div>
-                            <div className="space-y-2">
-                                <Label htmlFor="city" className="text-black dark:text-white">City</Label>
-                                <Input
-                                    id="city"
-                                    value={newHospital.city}
-                                    onChange={(e) => setNewHospital({ ...newHospital, city: e.target.value })}
-                                    placeholder="Delhi"
-                                    className="border-black dark:border-white"
-                                />
-                            </div>
-                            <div className="space-y-2">
-                                <Label htmlFor="beds" className="text-black dark:text-white">Total Beds</Label>
-                                <Input
-                                    id="beds"
-                                    type="number"
-                                    value={newHospital.totalBeds}
-                                    onChange={(e) => setNewHospital({ ...newHospital, totalBeds: e.target.value })}
-                                    placeholder="500"
-                                    className="border-black dark:border-white"
-                                />
-                            </div>
-                            <div className="space-y-2">
-                                <Label htmlFor="departments" className="text-black dark:text-white">Departments (comma-separated)</Label>
-                                <Input
-                                    id="departments"
-                                    value={newHospital.departments}
-                                    onChange={(e) => setNewHospital({ ...newHospital, departments: e.target.value })}
-                                    placeholder="Emergency, ICU, OPD"
-                                    className="border-black dark:border-white"
-                                />
-                            </div>
-                        </div>
-                        <DialogFooter>
-                            <Button variant="outline" onClick={() => setShowAddDialog(false)} className="border-black dark:border-white">
-                                Cancel
-                            </Button>
-                            <Button onClick={handleAddHospital} className="bg-black dark:bg-white text-white dark:text-black">
+                <div className="flex items-center gap-3">
+                    {/* Location Selector */}
+                    <LocationSelector />
+
+                    {/* Add Hospital Dialog */}
+                    <Dialog open={showAddDialog} onOpenChange={setShowAddDialog}>
+                        <DialogTrigger asChild>
+                            <Button className="bg-black hover:bg-gray-800 dark:bg-white dark:hover:bg-gray-200 text-white dark:text-black transition-all duration-200 hover:scale-105 shadow-lg">
+                                <Plus className="mr-2 h-4 w-4" />
                                 Add Hospital
                             </Button>
-                        </DialogFooter>
-                    </DialogContent>
-                </Dialog>
+                        </DialogTrigger>
+                        <DialogContent className="bg-white dark:bg-gray-900">
+                            <DialogHeader>
+                                <DialogTitle className="text-black dark:text-white">Add New Hospital</DialogTitle>
+                                <DialogDescription className="text-gray-600 dark:text-gray-400">
+                                    Enter the details of the new hospital
+                                </DialogDescription>
+                            </DialogHeader>
+                            <div className="space-y-4 py-4">
+                                <div className="space-y-2">
+                                    <Label htmlFor="name" className="text-black dark:text-white">Hospital Name</Label>
+                                    <Input
+                                        id="name"
+                                        value={newHospital.name}
+                                        onChange={(e) => setNewHospital({ ...newHospital, name: e.target.value })}
+                                        placeholder="Apollo Hospital"
+                                        className="border-black dark:border-white"
+                                    />
+                                </div>
+                                <div className="space-y-2">
+                                    <Label htmlFor="city" className="text-black dark:text-white">City</Label>
+                                    <Input
+                                        id="city"
+                                        value={newHospital.city}
+                                        onChange={(e) => setNewHospital({ ...newHospital, city: e.target.value })}
+                                        placeholder="Delhi"
+                                        className="border-black dark:border-white"
+                                    />
+                                </div>
+                                <div className="space-y-2">
+                                    <Label htmlFor="beds" className="text-black dark:text-white">Total Beds</Label>
+                                    <Input
+                                        id="beds"
+                                        type="number"
+                                        value={newHospital.totalBeds}
+                                        onChange={(e) => setNewHospital({ ...newHospital, totalBeds: e.target.value })}
+                                        placeholder="500"
+                                        className="border-black dark:border-white"
+                                    />
+                                </div>
+                                <div className="space-y-2">
+                                    <Label htmlFor="departments" className="text-black dark:text-white">Departments (comma-separated)</Label>
+                                    <Input
+                                        id="departments"
+                                        value={newHospital.departments}
+                                        onChange={(e) => setNewHospital({ ...newHospital, departments: e.target.value })}
+                                        placeholder="Emergency, ICU, OPD"
+                                        className="border-black dark:border-white"
+                                    />
+                                </div>
+                            </div>
+                            <DialogFooter>
+                                <Button variant="outline" onClick={() => setShowAddDialog(false)} className="border-black dark:border-white">
+                                    Cancel
+                                </Button>
+                                <Button onClick={handleAddHospital} className="bg-black dark:bg-white text-white dark:text-black">
+                                    Add Hospital
+                                </Button>
+                            </DialogFooter>
+                        </DialogContent>
+                    </Dialog>
+                </div>
             </div>
 
             {loading && (
