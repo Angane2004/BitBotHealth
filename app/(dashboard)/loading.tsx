@@ -1,4 +1,7 @@
+'use client';
+
 import { Activity, Loader2 } from "lucide-react";
+import { motion } from "framer-motion";
 
 export default function DashboardLoading() {
     return (
@@ -7,28 +10,44 @@ export default function DashboardLoading() {
                 {/* Animated Logo */}
                 <div className="relative mb-6 w-20 h-20 mx-auto">
                     <div className="absolute inset-0 flex items-center justify-center">
-                        <div className="w-20 h-20 border-4 border-blue-200 dark:border-blue-800 rounded-full animate-ping"></div>
+                        <motion.div
+                            className="w-20 h-20 border-4 border-gray-200 dark:border-gray-800 rounded-full"
+                            animate={{ scale: [1, 1.1, 1], opacity: [0.5, 1, 0.5] }}
+                            transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+                        />
                     </div>
                     <div className="relative flex items-center justify-center h-full">
-                        <div className="w-16 h-16 bg-gradient-to-br from-blue-600 to-purple-600 rounded-full flex items-center justify-center animate-pulse">
-                            <Activity className="h-8 w-8 text-white animate-heartbeat" />
+                        <div className="w-16 h-16 bg-black dark:bg-white rounded-full flex items-center justify-center">
+                            <Activity className="h-8 w-8 text-white dark:text-black animate-heartbeat" />
                         </div>
                     </div>
                     <div className="absolute inset-0 flex items-center justify-center">
-                        <Loader2 className="h-20 w-20 text-blue-600/20 animate-spin" />
+                        <Loader2 className="h-20 w-20 text-gray-300 dark:text-gray-700 animate-spin" />
                     </div>
                 </div>
 
                 {/* Loading Text */}
-                <p className="text-lg font-medium text-muted-foreground animate-pulse">
+                <p className="text-lg font-medium text-black dark:text-white animate-pulse">
                     Loading dashboard...
                 </p>
 
                 {/* Loading Dots */}
                 <div className="flex items-center justify-center gap-2 mt-4">
-                    <div className="w-2 h-2 bg-blue-600 rounded-full animate-bounce" style={{ animationDelay: '0ms' }}></div>
-                    <div className="w-2 h-2 bg-purple-600 rounded-full animate-bounce" style={{ animationDelay: '150ms' }}></div>
-                    <div className="w-2 h-2 bg-pink-600 rounded-full animate-bounce" style={{ animationDelay: '300ms' }}></div>
+                    <motion.div
+                        className="w-2 h-2 bg-black dark:bg-white rounded-full"
+                        animate={{ y: [0, -8, 0] }}
+                        transition={{ duration: 0.6, repeat: Infinity, ease: "easeInOut", delay: 0 }}
+                    />
+                    <motion.div
+                        className="w-2 h-2 bg-black dark:bg-white rounded-full"
+                        animate={{ y: [0, -8, 0] }}
+                        transition={{ duration: 0.6, repeat: Infinity, ease: "easeInOut", delay: 0.15 }}
+                    />
+                    <motion.div
+                        className="w-2 h-2 bg-black dark:bg-white rounded-full"
+                        animate={{ y: [0, -8, 0] }}
+                        transition={{ duration: 0.6, repeat: Infinity, ease: "easeInOut", delay: 0.3 }}
+                    />
                 </div>
             </div>
         </div>
