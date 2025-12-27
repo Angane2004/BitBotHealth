@@ -35,7 +35,7 @@ export function useLiveWeather({
   const [snapshot, setSnapshot] = useState<LiveWeatherSnapshot | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const controllerRef = useRef<AbortController>();
+  const controllerRef = useRef<AbortController | undefined>(undefined);
   const apiKey = process.env.NEXT_PUBLIC_OPENWEATHER_API_KEY;
 
   const fetchWeather = useCallback(async () => {

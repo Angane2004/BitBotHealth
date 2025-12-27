@@ -34,8 +34,8 @@ export function useHospitals() {
             q,
             (snapshot) => {
                 const data = snapshot.docs.map(doc => ({
-                    id: doc.id,
-                    ...doc.data()
+                    ...doc.data(),
+                    id: doc.id
                 })) as Hospital[];
                 setHospitals(data);
                 setLoading(false);
@@ -74,8 +74,8 @@ export function usePredictions(hospitalId?: string, days: number = 7) {
             q,
             (snapshot) => {
                 const data = snapshot.docs.map(doc => ({
-                    id: doc.id,
-                    ...doc.data()
+                    ...doc.data(),
+                    id: doc.id
                 })) as Prediction[];
                 setPredictions(data);
                 setLoading(false);
@@ -117,8 +117,8 @@ export function useActions(hospitalId?: string, status?: string) {
             q,
             (snapshot) => {
                 const data = snapshot.docs.map(doc => ({
-                    id: doc.id,
-                    ...doc.data()
+                    ...doc.data(),
+                    id: doc.id
                 })) as ActionItem[];
                 setActions(data);
                 setLoading(false);
@@ -150,7 +150,7 @@ export function useUserSettings(userId?: string) {
             docRef,
             snapshot => {
                 if (snapshot.exists()) {
-                    setSettings({ id: snapshot.id, ...(snapshot.data() as UserSettings) });
+                    setSettings({ ...(snapshot.data() as UserSettings), id: snapshot.id });
                 } else {
                     setSettings(null);
                 }
