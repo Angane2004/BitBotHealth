@@ -72,9 +72,9 @@ export default function LoadingPage() {
             </div>
 
             <div className="w-full space-y-2">
-              <div className="h-3 rounded-full bg-gray-200 dark:bg-gray-800 overflow-hidden">
+              <div className="h-3 rounded-full bg-gray-200 dark:bg-gray-800 overflow-hidden border border-gray-300 dark:border-gray-700">
                 <motion.div
-                  className="h-full rounded-full bg-black dark:bg-white"
+                  className="h-full rounded-full bg-gradient-to-r from-black via-gray-700 to-black dark:from-white dark:via-gray-300 dark:to-white"
                   style={{ width: progressPercentage }}
                 />
               </div>
