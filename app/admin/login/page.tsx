@@ -179,17 +179,33 @@ export default function AdminLoginPage() {
                                 </p>
 
                                 <Button
+                                    type="submit"
                                     onClick={() => handleSubmit(pin.join(''))}
-                                    className="w-full h-14 text-lg bg-black hover:bg-gray-800 dark:bg-white dark:hover:bg-gray-200 text-white dark:text-black transition-all duration-200 hover:scale-[1.02] active:scale-95"
+                                    className="w-full h-14 text-lg bg-black hover:bg-gray-800 dark:bg-white dark:hover:bg-gray-200 text-white dark:text-black transition-all duration-200 hover:scale-[1.02] active:95"
                                     disabled={isLoading || pin.some(d => !d)}
                                 >
                                     {isLoading ? (
-                                        <motion.div
-                                            animate={{ rotate: 360 }}
-                                            transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
-                                        >
-                                            <Lock className="h-5 w-5" />
-                                        </motion.div>
+                                        <div className="flex items-center gap-2">
+                                            <motion.div
+                                                animate={{
+                                                    rotate: [0, -10, 10, -10, 10, 0],
+                                                    y: [0, -2, 0, -2, 0],
+                                                }}
+                                                transition={{
+                                                    duration: 0.6,
+                                                    repeat: Infinity,
+                                                    ease: "easeInOut"
+                                                }}
+                                            >
+                                                <Lock className="h-5 w-5" />
+                                            </motion.div>
+                                            <motion.span
+                                                animate={{ opacity: [1, 0.5, 1] }}
+                                                transition={{ duration: 1, repeat: Infinity }}
+                                            >
+                                                Unlocking...
+                                            </motion.span>
+                                        </div>
                                     ) : (
                                         <>
                                             <Lock className="mr-2 h-5 w-5" />
