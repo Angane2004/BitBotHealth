@@ -71,16 +71,18 @@ export default function LoadingPage() {
               <p className="text-base text-gray-600 dark:text-gray-400">Preparing your healthcare intelligence dashboard...</p>
             </div>
 
-            <div className="w-full space-y-2">
-              <div className="h-4 rounded-full bg-gray-300 dark:bg-gray-700 overflow-hidden border-2 border-black/20 dark:border-white/20 shadow-inner">
+            <div className="w-full space-y-3">
+              <div className="h-6 rounded-full bg-gray-300 dark:bg-gray-700 overflow-hidden border-4 border-black dark:border-white shadow-2xl">
                 <motion.div
-                  className="h-full rounded-full bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 shadow-lg"
+                  className="h-full rounded-full bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600"
                   style={{ width: progressPercentage }}
+                  animate={{ backgroundPosition: ['0% 50%', '100% 50%', '0% 50%'] }}
+                  transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
                 />
               </div>
-              <div className="flex items-center justify-between text-xs uppercase tracking-[0.3em] text-gray-600 dark:text-gray-400 font-semibold">
-                <span>systems</span>
-                <span>{progress}%</span>
+              <div className="flex items-center justify-between text-sm font-bold uppercase tracking-[0.3em] text-black dark:text-white">
+                <span>LOADING SYSTEMS</span>
+                <span className="text-lg">{progress}%</span>
               </div>
             </div>
 
