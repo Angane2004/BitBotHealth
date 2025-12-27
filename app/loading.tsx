@@ -72,17 +72,18 @@ export default function LoadingPage() {
             </div>
 
             <div className="w-full space-y-3">
-              <div className="h-6 rounded-full bg-gray-300 dark:bg-gray-700 overflow-hidden border-4 border-black dark:border-white shadow-2xl">
+              <div className="h-8 rounded-full bg-white dark:bg-black overflow-hidden border-4 border-black dark:border-white shadow-2xl">
                 <motion.div
-                  className="h-full rounded-full bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600"
+                  className="h-full bg-black dark:bg-white"
                   style={{ width: progressPercentage }}
-                  animate={{ backgroundPosition: ['0% 50%', '100% 50%', '0% 50%'] }}
-                  transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
+                  initial={{ width: '0%' }}
+                  animate={{ width: progressPercentage }}
+                  transition={{ duration: 0.5, ease: "easeOut" }}
                 />
               </div>
               <div className="flex items-center justify-between text-sm font-bold uppercase tracking-[0.3em] text-black dark:text-white">
                 <span>LOADING SYSTEMS</span>
-                <span className="text-lg">{progress}%</span>
+                <span className="text-xl">{progress}%</span>
               </div>
             </div>
 
