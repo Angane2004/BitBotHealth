@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Lock, Shield, ArrowLeft } from 'lucide-react';
+import { UnlockingLockIcon } from '@/components/unlocking-lock-icon';
 import Link from 'next/link';
 import { useAdminStore } from '@/lib/hooks/useAdmin';
 import { toast } from 'sonner';
@@ -186,19 +187,7 @@ export default function AdminLoginPage() {
                                 >
                                     {isLoading ? (
                                         <div className="flex items-center gap-2">
-                                            <motion.div
-                                                animate={{
-                                                    rotate: [0, -10, 10, -10, 10, 0],
-                                                    y: [0, -2, 0, -2, 0],
-                                                }}
-                                                transition={{
-                                                    duration: 0.6,
-                                                    repeat: Infinity,
-                                                    ease: "easeInOut"
-                                                }}
-                                            >
-                                                <Lock className="h-5 w-5" />
-                                            </motion.div>
+                                            <UnlockingLockIcon className="h-5 w-5" />
                                             <motion.span
                                                 animate={{ opacity: [1, 0.5, 1] }}
                                                 transition={{ duration: 1, repeat: Infinity }}
