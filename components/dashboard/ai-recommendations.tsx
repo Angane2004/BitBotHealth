@@ -62,7 +62,7 @@ export function AIRecommendations() {
     }
 
     return (
-        <Card className="border-2 bg-white dark:bg-gray-900 border-gray-200 dark:border-gray-800 h-full flex flex-col">
+        <Card className="border-2 bg-white dark:bg-gray-900 border-black dark:border-gray-800 h-full flex flex-col">
             <CardHeader>
                 <div className="flex items-center justify-between">
                     <div className="flex items-center gap-2">

@@ -26,7 +26,7 @@ export function FestivalCalendar() {
     .slice(0, 5);
 
   return (
-    <Card className="hover:shadow-lg transition-shadow">
+    <Card className="hover:shadow-lg transition-shadow bg-white dark:bg-gray-900 border-2 border-black dark:border-gray-800">
       <CardHeader>
         <div className="flex items-center justify-between">
           <div>

@@ -43,7 +43,7 @@ export function AQIWidget() {
     const healthImpact = getHealthImpact(current);
 
     return (
-        <Card className="hover:shadow-lg transition-shadow border-2 bg-white dark:bg-gray-900 border-gray-200 dark:border-gray-800">
+        <Card className="hover:shadow-lg transition-shadow border-2 bg-white dark:bg-gray-900 border-black dark:border-gray-800">
             <CardHeader>
                 <div className="flex items-center justify-between">
                     <div className="flex-1">

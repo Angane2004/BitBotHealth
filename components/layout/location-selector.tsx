@@ -58,7 +58,7 @@ export function LocationSelector() {
                     <ChevronDown className="h-3 w-3" />
                 </Button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent align="end" className="w-56">
+            <DropdownMenuContent align="end" className="w-56 bg-white dark:bg-gray-900 border-2">
                 <DropdownMenuLabel>Location Settings</DropdownMenuLabel>
                 <DropdownMenuSeparator />
 
@@ -78,7 +78,7 @@ export function LocationSelector() {
                         <MapPin className="h-4 w-4" />
                         <span>Use Another Location</span>
                     </DropdownMenuSubTrigger>
-                    <DropdownMenuSubContent className="max-h-[300px] overflow-y-auto">
+                    <DropdownMenuSubContent className="max-h-[300px] overflow-y-auto bg-white dark:bg-gray-900 border-2">
                         {CITIES.map((city) => (
                             <DropdownMenuItem
                                 key={city}

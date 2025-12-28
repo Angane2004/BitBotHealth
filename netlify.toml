@@ -1,15 +1,10 @@
 [build]
-  command = "rm -rf node_modules .next && npm install && NEXT_DISABLE_ESLINT=1 npm run build"
+  command = "npm install && npm run build"
   publish = ".next"
 
 [build.environment]
   NODE_VERSION = "22"
   NPM_CONFIG_LEGACY_PEER_DEPS = "true"
-  # Force fresh install of native modules
-  npm_config_build_from_source = "true"
-
-[[plugins]]
-  package = "@netlify/plugin-nextjs"
 
 [functions]
   node_bundler = "esbuild"

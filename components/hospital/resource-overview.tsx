@@ -24,7 +24,7 @@ export function ResourceOverview({ hospitalId = '1' }: ResourceOverviewProps) {
     };
 
     return (
-        <Card className="hover:shadow-lg transition-shadow">
+        <Card className="hover:shadow-lg transition-shadow bg-white/70 dark:bg-gray-900/70 border-2">
             <CardHeader>
                 <CardTitle className="text-lg">Resource Overview</CardTitle>
                 <CardDescription>{hospital.name}</CardDescription>
