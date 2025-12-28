@@ -247,7 +247,7 @@ export default function HospitalsPage() {
             </div>
 
             {loading && (
-                <Card className="border-2 bg-white/80 dark:bg-white/5">
+                <Card className="border-2 bg-white dark:bg-gray-900">
                     <CardContent className="p-6 text-gray-600 dark:text-gray-300">Syncing hospitals…</CardContent>
                 </Card>
             )}
@@ -347,7 +347,7 @@ export default function HospitalsPage() {
                     );
                 })}
                 {!loading && hospitals.length === 0 && (
-                    <Card className="border-2 bg-white/80 dark:bg-white/5 col-span-full">
+                    <Card className="border-2 bg-white dark:bg-gray-900 col-span-full">
                         <CardContent className="p-8 text-center text-gray-600 dark:text-gray-300">
                             {location?.city
                                 ? `No hospitals found in ${location.city}. Try selecting a different location.`

@@ -99,7 +99,7 @@ export default function PredictionsPage() {
 
     return (
         <div className="space-y-6 animate-fade-in">
-            <div className="relative overflow-hidden rounded-3xl border border-black/5 dark:border-white/5 bg-white/70 dark:bg-white/5 p-8">
+            <div className="relative overflow-hidden rounded-3xl border border-black dark:border-white bg-white dark:bg-gray-900 p-8">
                 <div className="absolute inset-0">
                     <div className="absolute inset-0 bg-[url('/topographic-bg.png')] opacity-30 dark:opacity-40 mix-blend-soft-light" />
                     <motion.div
@@ -119,7 +119,7 @@ export default function PredictionsPage() {
                         </p>
                     </div>
                     {weather && (
-                        <div className="ml-auto rounded-2xl border border-black/5 dark:border-white/10 px-6 py-4 bg-white/70 dark:bg-white/10 shadow-lg text-sm">
+                        <div className="ml-auto rounded-2xl border border-black dark:border-white px-6 py-4 bg-white dark:bg-gray-900 shadow-lg text-sm">
                             <p className="text-xs uppercase tracking-[0.4em] text-gray-500">Live AQI</p>
                             <p className="text-2xl font-semibold text-black dark:text-white">{weather.aqi ?? '—'}</p>
                             <p className="text-gray-500">{weather.alertMessage}</p>
@@ -224,7 +224,7 @@ export default function PredictionsPage() {
                             <CardContent>
                                 <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
                                     {staticFactors.map((factor) => (
-                                        <div key={factor.label} className="flex items-start gap-3 p-4 rounded-2xl bg-white/80 dark:bg-white/10 border border-black/5 dark:border-white/10">
+                                        <div key={factor.label} className="flex items-start gap-3 p-4 rounded-2xl bg-white dark:bg-gray-800 border border-black dark:border-white">
                                             <div className="p-2 rounded-xl bg-gradient-to-br from-black/80 to-black/60 dark:from-white dark:to-gray-200 text-white dark:text-black">
                                                 <factor.icon className="h-5 w-5" />
                                             </div>

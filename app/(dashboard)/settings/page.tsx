@@ -315,7 +315,7 @@ export default function SettingsPage() {
                     </Card>
 
                     {/* Prediction Settings */}
-                    <Card className="border-2 bg-white dark:bg-gray-900">
+                    <Card className="border-2 bg-white dark:bg-gray-900 w-[160%]">
                         <CardHeader>
                             <CardTitle className="text-black dark:text-white">Prediction Settings</CardTitle>
                             <CardDescription className="text-gray-600 dark:text-gray-400">Tune forecasting horizon and confidence guardrails.</CardDescription>
