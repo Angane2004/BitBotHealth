@@ -26,6 +26,36 @@ interface UseLiveWeatherOptions {
 
 const WEATHER_ENDPOINT = 'https://api.openweathermap.org/data/2.5';
 
+/**
+ * Calculate AQI from PM2.5 concentration using US EPA breakpoints
+ * PM2.5 in μg/m³ -> AQI (0-500 scale)
+ */
+function calculateAQIFromPM25(pm25: number): number {
+  // US EPA AQI breakpoints for PM2.5
+  const breakpoints = [
+    { cLow: 0.0, cHigh: 12.0, iLow: 0, iHigh: 50 },      // Good
+    { cLow: 12.1, cHigh: 35.4, iLow: 51, iHigh: 100 },   // Moderate
+    { cLow: 35.5, cHigh: 55.4, iLow: 101, iHigh: 150 },  // Unhealthy for Sensitive Groups
+    { cLow: 55.5, cHigh: 150.4, iLow: 151, iHigh: 200 }, // Unhealthy
+    { cLow: 150.5, cHigh: 250.4, iLow: 201, iHigh: 300 },// Very Unhealthy
+    { cLow: 250.5, cHigh: 500.4, iLow: 301, iHigh: 500 } // Hazardous
+  ];
+
+  // Find the appropriate breakpoint
+  for (const bp of breakpoints) {
+    if (pm25 >= bp.cLow && pm25 <= bp.cHigh) {
+      // Linear interpolation formula: I = ((IHi - ILo) / (CHi - CLo)) * (C - CLo) + ILo
+      const aqi = Math.round(
+        ((bp.iHigh - bp.iLow) / (bp.cHigh - bp.cLow)) * (pm25 - bp.cLow) + bp.iLow
+      );
+      return aqi;
+    }
+  }
+
+  // If PM2.5 exceeds all breakpoints, return maximum AQI
+  return pm25 > 500.4 ? 500 : 0;
+}
+
 export function useLiveWeather({
   city = 'Delhi',
   lat,
@@ -101,9 +131,13 @@ export function useLiveWeather({
           { signal: controller.signal }
         );
         const pollutionJson = await pollutionResponse.json();
-        aqiValue = pollutionJson?.list?.[0]?.main?.aqi
-          ? Number(pollutionJson.list[0].main.aqi) * 50
-          : undefined;
+
+        // Get PM2.5 concentration (μg/m³) and convert to AQI
+        const pm25 = pollutionJson?.list?.[0]?.components?.pm2_5;
+        if (pm25 !== undefined) {
+          // Convert PM2.5 to AQI using US EPA breakpoints
+          aqiValue = calculateAQIFromPM25(pm25);
+        }
       }
 
       const mainDescription = weatherJson.weather?.[0]?.description ?? 'Clear';

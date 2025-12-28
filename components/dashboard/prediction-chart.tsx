@@ -1,7 +1,7 @@
 'use client';
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, Area, AreaChart } from 'recharts';
+import { Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, ComposedChart, Area } from 'recharts';
 import { format, addDays } from 'date-fns';
 import { useTheme } from 'next-themes';
 import { useMemo } from 'react';
@@ -25,112 +25,103 @@ export function PredictionChart({ department = 'Emergency' }: PredictionChartPro
             const date = addDays(new Date(), i);
             const variance = seededRandom(baseSeed + i) * 30;
             const baseValue = 70 + variance;
+            const lower = Math.round(baseValue - 8 - seededRandom(baseSeed + i * 2) * 5);
+            const upper = Math.round(baseValue + 8 + seededRandom(baseSeed + i * 3) * 5);
+
             return {
                 date: format(date, 'MMM dd'),
                 predicted: Math.round(baseValue),
-                lower: Math.round(baseValue - 8 - seededRandom(baseSeed + i * 2) * 5),
-                upper: Math.round(baseValue + 8 + seededRandom(baseSeed + i * 3) * 5),
+                range: [lower, upper],
                 actual: i === 0 ? Math.round(baseValue + (seededRandom(baseSeed + i * 4) - 0.5) * 10) : null,
             };
         });
     }, [department]);
 
     return (
-        <Card className="col-span-full hover:shadow-lg transition-shadow border-2 bg-white dark:bg-gray-900">
+        <Card className="col-span-full hover:shadow-lg transition-shadow border-2 bg-white dark:bg-black border-black dark:border-white">
             <CardHeader>
                 <CardTitle className="text-black dark:text-white">7-Day Patient Volume Forecast</CardTitle>
                 <CardDescription className="text-gray-600 dark:text-gray-400">
-                    {department} Department • Predicted admissions with confidence intervals
+                    {department} Department • AI-Predicted admissions
                 </CardDescription>
             </CardHeader>
             <CardContent>
-                <ResponsiveContainer width="100%" height={350}>
-                    <AreaChart data={data}>
-                        <defs>
-                            <linearGradient id="colorPredicted" x1="0" y1="0" x2="0" y2="1">
-                                <stop offset="5%" stopColor={isDark ? "#ffffff" : "#000000"} stopOpacity={0.2} />
-                                <stop offset="95%" stopColor={isDark ? "#ffffff" : "#000000"} stopOpacity={0} />
-                            </linearGradient>
-                        </defs>
-                        <CartesianGrid
-                            strokeDasharray="3 3"
-                            stroke={isDark ? "#374151" : "#e5e7eb"}
-                        />
-                        <XAxis
-                            dataKey="date"
-                            className="text-xs"
-                            tick={{ fill: isDark ? '#9ca3af' : '#6b7280' }}
-                            stroke={isDark ? '#4b5563' : '#d1d5db'}
-                        />
-                        <YAxis
-                            className="text-xs"
-                            tick={{ fill: isDark ? '#9ca3af' : '#6b7280' }}
-                            stroke={isDark ? '#4b5563' : '#d1d5db'}
-                            label={{
-                                value: 'Patients',
-                                angle: -90,
-                                position: 'insideLeft',
-                                fill: isDark ? '#9ca3af' : '#6b7280'
-                            }}
-                        />
-                        <Tooltip
-                            contentStyle={{
-                                backgroundColor: isDark ? '#1f2937' : '#ffffff',
-                                border: `1px solid ${isDark ? '#374151' : '#e5e7eb'}`,
-                                borderRadius: '8px',
-                                color: isDark ? '#ffffff' : '#000000'
-                            }}
-                        />
-                        <Legend
-                            wrapperStyle={{
-                                color: isDark ? '#ffffff' : '#000000'
-                            }}
-                        />
-                        <Area
-                            type="monotone"
-                            dataKey="upper"
-                            stroke="none"
-                            fill={isDark ? "#4b5563" : "#e5e7eb"}
-                            fillOpacity={0.4}
-                        />
-                        <Area
-                            type="monotone"
-                            dataKey="lower"
-                            stroke="none"
-                            fill={isDark ? "#111827" : "#ffffff"}
-                            fillOpacity={1}
-                        />
-                        <Line
-                            type="monotone"
-                            dataKey="predicted"
-                            stroke={isDark ? "#ffffff" : "#000000"}
-                            strokeWidth={3}
-                            dot={{ fill: isDark ? "#ffffff" : "#000000", r: 4 }}
-                            activeDot={{ r: 6 }}
-                        />
-                        <Line
-                            type="monotone"
-                            dataKey="actual"
-                            stroke={isDark ? "#10b981" : "#059669"}
-                            strokeWidth={2}
-                            dot={{ fill: isDark ? "#10b981" : "#059669", r: 5 }}
-                            strokeDasharray="5 5"
-                        />
-                    </AreaChart>
-                </ResponsiveContainer>
-                <div className="mt-4 flex items-center justify-center gap-6 text-sm">
-                    <div className="flex items-center gap-2">
-                        <div className="w-4 h-4 bg-black dark:bg-white rounded"></div>
-                        <span className="text-black dark:text-white">Predicted</span>
-                    </div>
-                    <div className="flex items-center gap-2">
-                        <div className="w-4 h-4 bg-green-600 rounded"></div>
-                        <span className="text-black dark:text-white">Actual</span>
-                    </div>
-                    <div className="flex items-center gap-2">
-                        <div className="w-4 h-4 bg-gray-300 dark:bg-gray-600 rounded"></div>
-                        <span className="text-black dark:text-white">Confidence Interval</span>
-                    </div>
+                <div style={{ width: '100%', height: 350 }}>
+                    <ResponsiveContainer width="100%" height="100%">
+                        <ComposedChart data={data}>
+                            <CartesianGrid
+                                strokeDasharray="3 3"
+                                stroke={isDark ? "#333" : "#eee"}
+                                vertical={false}
+                            />
+                            <XAxis
+                                dataKey="date"
+                                className="text-xs"
+                                tickLine={false}
+                                axisLine={false}
+                                tick={{ fill: isDark ? '#fff' : '#000' }}
+                            />
+                            <YAxis
+                                className="text-xs"
+                                tickLine={false}
+                                axisLine={false}
+                                tick={{ fill: isDark ? '#fff' : '#000' }}
+                                label={{
+                                    value: 'Patients',
+                                    angle: -90,
+                                    position: 'insideLeft',
+                                    fill: isDark ? '#fff' : '#000'
+                                }}
+                            />
+                            <Tooltip
+                                contentStyle={{
+                                    backgroundColor: isDark ? '#000' : '#fff',
+                                    border: `2px solid ${isDark ? '#fff' : '#000'}`,
+                                    borderRadius: '0px',
+                                    color: isDark ? '#fff' : '#000',
+                                    boxShadow: 'none'
+                                }}
+                            />
+                            <Legend
+                                verticalAlign="top"
+                                height={36}
+                                wrapperStyle={{
+                                    color: isDark ? '#fff' : '#000'
+                                }}
+                            />
+
+                            {/* Confidence Interval Band - Gray */}
+                            <Area
+                                name="Confidence"
+                                dataKey="range"
+                                stroke="none"
+                                fill={isDark ? "#333" : "#eee"}
+                                fillOpacity={0.5}
+                            />
+
+                            {/* Main Prediction Line - Black/White */}
+                            <Line
+                                name="Predicted"
+                                type="monotone"
+                                dataKey="predicted"
+                                stroke={isDark ? "#ffffff" : "#000000"}
+                                strokeWidth={3}
+                                dot={{ fill: isDark ? "#fff" : "#000", r: 4, strokeWidth: 0 }}
+                                activeDot={{ r: 6, fill: isDark ? "#fff" : "#000" }}
+                            />
+
+                            {/* Actual Data Line - Dashed Gray */}
+                            <Line
+                                name="Actual"
+                                type="monotone"
+                                dataKey="actual"
+                                stroke={isDark ? "#666" : "#999"}
+                                strokeWidth={2}
+                                dot={{ fill: isDark ? "#666" : "#999", r: 4 }}
+                                strokeDasharray="5 5"
+                            />
+                        </ComposedChart>
+                    </ResponsiveContainer>
                 </div>
             </CardContent>
         </Card>

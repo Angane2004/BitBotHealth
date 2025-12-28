@@ -95,10 +95,68 @@ SwasthyaSense is built on a modern, production-grade technology stack optimized 
 
 ## 🤖 AI & Machine Learning
 
-### Healthcare Analytics Service
-**Custom-built AI Analytics Engine**
+### Google Gemini AI Integration
+**Powered by Google's Gemini Pro Model**
 
-#### Core Capabilities:
+SwasthyaSense uses Google's Gemini AI to power all healthcare analytics and insights generation. The Gemini API processes real-time hospital data, environmental factors, and predictions to generate actionable recommendations.
+
+#### Core AI Capabilities:
+1. **Real-Time Data Analysis**
+   - Instant interpretation of complex hospital metrics
+   - Multi-source data fusion (hospital + environmental + predictions)
+   - Context-aware analysis with historical patterns
+
+2. **Healthcare Insights Generation**
+   - AI-generated recommendations with confidence scores
+   - Priority classification (critical/high/medium/low)
+   - Category-based insights (capacity/staffing/equipment/environmental/outbreak)
+   - Natural language explanations
+
+3. **Environmental Health Assessment**
+   - AQI (Air Quality Index) impact on respiratory health
+   - Prediction of admission increases during poor air quality
+   - Automated alert generation for environmental triggers
+
+4. **Predictive Analytics**
+   - Patient volume forecasting (7/14/21-day horizons)
+   - Surge pattern detection with confidence intervals
+   - Outbreak early warning system
+   - Trend analysis and anomaly detection
+
+5. **Resource Optimization**
+   - AI-powered staffing recommendations
+   - Patient-to-staff ratio optimization
+   - Supply chain analytics
+   - Capacity planning with scenario analysis
+
+#### Gemini AI Features:
+- **Model:** `gemini-pro` - Google's most advanced text model
+- **Real-time Processing:** Sub-second response times
+- **Structured Output:** JSON-formatted insights for easy integration
+- **Fallback Logic:** Graceful degradation if API unavailable
+- **Confidence Scoring:** 0-100% confidence for each insight
+- **Contextual Understanding:** Learns from historical patterns
+
+#### Example Gemini-Generated Insight:
+```json
+{
+  "type": "alert",
+  "priority": "critical",
+  "category": "environmental",
+  "title": "Severe Air Quality Impact Expected",
+  "description": "AQI of 220 indicates hazardous conditions. Based on historical data, expect 45-55% increase in respiratory admissions within 24 hours. Immediate actions: activate emergency respiratory protocols, increase ICU capacity by 30%, ensure 72-hour supply of respiratory medications.",
+  "confidence": 0.94
+}
+```
+
+### Technical Implementation
+- **Library:** `@google/generative-ai` (v0.24.1)
+- **API Integration:** Serverless functions with error handling
+- **Prompt Engineering:** Healthcare-specific prompts for optimal results
+- **Response Parsing:** Intelligent JSON extraction and validation
+- **Error Handling:** Automatic fallback to rule-based system
+
+### Future AI Enhancements
 1. **Environmental Health Analysis**
    - AQI (Air Quality Index) impact assessment
    - Respiratory health risk prediction

@@ -5,6 +5,7 @@ import { PredictionChart } from '@/components/dashboard/prediction-chart';
 import { AQIWidget } from '@/components/dashboard/aqi-widget';
 import { FestivalCalendar } from '@/components/dashboard/festival-calendar';
 import { AIRecommendations } from '@/components/dashboard/ai-recommendations';
+import { HealthcareInsights } from '@/components/dashboard/healthcare-insights';
 import { ResourceOverview } from '@/components/hospital/resource-overview';
 import { Activity, Users, TrendingUp, AlertTriangle } from 'lucide-react';
 
@@ -58,20 +59,25 @@ export default function DashboardPage() {
 
             {/* Main Content Grid */}
             <div className="grid gap-6 lg:grid-cols-3">
-                {/* Left Column - Charts and Predictions */}
+                {/* Left Column - Charts (2/3 width) */}
                 <div className="lg:col-span-2 space-y-6">
                     <PredictionChart />
 
+                    {/* Bottom Widgets Grid */}
                     <div className="grid gap-6 md:grid-cols-2">
-                        <AQIWidget />
-                        <FestivalCalendar />
+                        <AIRecommendations />
+                        <ResourceOverview />
                     </div>
                 </div>
 
-                {/* Right Column - Recommendations and Resources */}
+                {/* Right Column - AI Insights (1/3 width) */}
                 <div className="space-y-6">
-                    <AIRecommendations />
-                    <ResourceOverview />
+                    {/* Gemini AI Healthcare Insights */}
+                    <HealthcareInsights />
+
+                    {/* Environmental & Event Monitoring */}
+                    <AQIWidget />
+                    <FestivalCalendar />
                 </div>
             </div>
         </div>

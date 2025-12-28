@@ -6,11 +6,11 @@ import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { CheckCircle2, XCircle, Clock, Download, Filter } from 'lucide-react';
+import { CheckCircle2, XCircle, Clock, Download, Filter, Trash2 } from 'lucide-react';
 import { mockActions } from '@/lib/mock-data';
 import { toast } from 'sonner';
 import { useMemo, useState } from 'react';
-import { updateDoc, doc, serverTimestamp, addDoc } from 'firebase/firestore';
+import { updateDoc, doc, serverTimestamp, addDoc, deleteDoc } from 'firebase/firestore';
 import { useActions } from '@/lib/firebase/hooks';
 import { actionsCollection, ActionItem } from '@/lib/firebase/collections';
 
@@ -102,6 +102,27 @@ export default function ActionsPage() {
         } catch (error) {
             toast.error('Error', {
                 description: (error as Error).message || 'Failed to reject action. Please try again.',
+            });
+        }
+    };
+
+    const handleDelete = async (action: typeof dataset[number]) => {
+        try {
+            if (action.id.startsWith('mock')) {
+                toast.error('Cannot Delete', {
+                    description: 'Mock actions cannot be deleted. Only real actions can be removed.',
+                });
+                return;
+            }
+
+            await deleteDoc(doc(actionsCollection, action.id));
+
+            toast.success('Action Deleted', {
+                description: `"${action.title}" has been permanently removed`,
+            });
+        } catch (error) {
+            toast.error('Error', {
+                description: (error as Error).message || 'Failed to delete action. Please try again.',
             });
         }
     };
@@ -300,45 +321,59 @@ export default function ActionsPage() {
                                             <CardTitle className="text-xl mb-2 text-black dark:text-white">{action.title}</CardTitle>
                                             <CardDescription className="text-gray-600 dark:text-gray-400">{action.description}</CardDescription>
                                         </div>
-                                        {action.status === 'pending' && (
-                                            <div className="flex gap-2">
-                                                <Button
-                                                    size="sm"
-                                                    onClick={() => handleApprove(action)}
-                                                    className="bg-green-600 hover:bg-green-700 text-white"
-                                                >
-                                                    <CheckCircle2 className="h-4 w-4 mr-1" />
-                                                    Approve
-                                                </Button>
-                                                <Button
-                                                    size="sm"
-                                                    variant="outline"
-                                                    onClick={() => handleReject(action)}
-                                                    className="hover:bg-red-50 hover:text-red-600 hover:border-red-200 dark:hover:bg-red-950 dark:hover:text-red-400"
-                                                >
-                                                    <XCircle className="h-4 w-4 mr-1" />
-                                                    Reject
-                                                </Button>
-                                            </div>
-                                        )}
-                                        {action.status === 'approved' && (
-                                            <Badge className="bg-green-100 text-green-700 dark:bg-green-900 dark:text-green-300 border-green-500">
-                                                <CheckCircle2 className="h-3 w-3 mr-1" />
-                                                Approved
-                                            </Badge>
-                                        )}
-                                        {action.status === 'rejected' && (
-                                            <Badge className="bg-red-100 text-red-700 dark:bg-red-900 dark:text-red-300 border-red-500">
-                                                <XCircle className="h-3 w-3 mr-1" />
-                                                Rejected
-                                            </Badge>
-                                        )}
-                                        {action.status === 'completed' && (
-                                            <Badge className="bg-blue-100 text-blue-700 dark:bg-blue-900 dark:text-blue-300 border-blue-500">
-                                                <CheckCircle2 className="h-3 w-3 mr-1" />
-                                                Completed
-                                            </Badge>
-                                        )}
+                                        <div className="flex flex-col gap-2 items-end">
+                                            {/* Delete Button - Always visible */}
+                                            <Button
+                                                size="sm"
+                                                variant="ghost"
+                                                onClick={() => handleDelete(action)}
+                                                className="hover:bg-red-50 hover:text-red-600 dark:hover:bg-red-950 dark:hover:text-red-400"
+                                                title="Delete action"
+                                            >
+                                                <Trash2 className="h-4 w-4" />
+                                            </Button>
+
+                                            {/* Status-specific buttons */}
+                                            {action.status === 'pending' && (
+                                                <div className="flex gap-2">
+                                                    <Button
+                                                        size="sm"
+                                                        onClick={() => handleApprove(action)}
+                                                        className="bg-green-600 hover:bg-green-700 text-white"
+                                                    >
+                                                        <CheckCircle2 className="h-4 w-4 mr-1" />
+                                                        Approve
+                                                    </Button>
+                                                    <Button
+                                                        size="sm"
+                                                        variant="outline"
+                                                        onClick={() => handleReject(action)}
+                                                        className="hover:bg-red-50 hover:text-red-600 hover:border-red-200 dark:hover:bg-red-950 dark:hover:text-red-400"
+                                                    >
+                                                        <XCircle className="h-4 w-4 mr-1" />
+                                                        Reject
+                                                    </Button>
+                                                </div>
+                                            )}
+                                            {action.status === 'approved' && (
+                                                <Badge className="bg-green-100 text-green-700 dark:bg-green-900 dark:text-green-300 border-green-500">
+                                                    <CheckCircle2 className="h-3 w-3 mr-1" />
+                                                    Approved
+                                                </Badge>
+                                            )}
+                                            {action.status === 'rejected' && (
+                                                <Badge className="bg-red-100 text-red-700 dark:bg-red-900 dark:text-red-300 border-red-500">
+                                                    <XCircle className="h-3 w-3 mr-1" />
+                                                    Rejected
+                                                </Badge>
+                                            )}
+                                            {action.status === 'completed' && (
+                                                <Badge className="bg-blue-100 text-blue-700 dark:bg-blue-900 dark:text-blue-300 border-blue-500">
+                                                    <CheckCircle2 className="h-3 w-3 mr-1" />
+                                                    Completed
+                                                </Badge>
+                                            )}
+                                        </div>
                                     </div>
                                 </CardHeader>
                                 <CardContent className="space-y-4">

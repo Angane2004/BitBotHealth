@@ -14,11 +14,15 @@
 
 ### 🎯 Core Capabilities
 
-- **Healthcare AI Analytics** - AI-powered insights for hospital resource management with:
-  - Medical entity recognition and terminology extraction
-  - AQI (Air Quality Index) impact analysis on respiratory health
-  - Predictive capacity planning and surge detection
-  - Automated staffing and supply recommendations
+- **Google Gemini AI Analytics** - Powered by Google's Gemini AI for healthcare insights:
+  - Real-time data analysis and interpretation
+  - AI-generated healthcare recommendations
+  - Predictive capacity planning with confidence scores
+  - Environmental health impact assessment (AQI analysis)
+  - Automated staffing and resource optimization
+  - Pattern detection and surge prediction
+  - Natural language insights and explanations
+
   
 - **Real-time Environmental Monitoring**
   - Air Quality Index (AQI) tracking with health impact analysis
@@ -120,6 +124,9 @@
    NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET=your-project.appspot.com
    NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID=123456789
    NEXT_PUBLIC_FIREBASE_APP_ID=1:123456789:web:abc123
+   
+   # Google Gemini AI (Powers all healthcare analytics)
+   GEMINI_API_KEY=your_gemini_api_key_here
    
    # Admin Configuration
    ADMIN_EMAIL=admin@yourdomain.com

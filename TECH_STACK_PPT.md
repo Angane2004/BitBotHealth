@@ -33,26 +33,44 @@
 
 ## 🤖 For Slide 4: AI & Analytics
 
-### Custom Healthcare Analytics Engine
+### Google Gemini AI Integration
 
-**Core Capabilities:**
-- ✅ AQI Impact Analysis
-- ✅ Capacity Planning & Predictions
-- ✅ Automated Staffing Recommendations
-- ✅ Supply Chain Optimization
-- ✅ Surge Pattern Detection
+**Powered by Google's Gemini Pro Model**
+
+**Core AI Capabilities:**
+- ✅ Real-Time Healthcare Data Analysis
+- ✅ AI-Generated Insights & Recommendations
+- ✅ AQI Impact Assessment (Respiratory Health)
+- ✅ Capacity Planning & Surge Detection
+- ✅ Automated Staffing Optimization
+- ✅ Pattern Recognition & Anomaly Detection
+- ✅ Natural Language Explanations
 
 **Technology:**
-- Custom TypeScript algorithms
-- Statistical analysis & forecasting
-- Time-series prediction models
-- Confidence scoring (0-100%)
-- Priority classification (Critical/High/Medium/Low)
+- **Model:** Gemini Pro (`gemini-pro`)
+- **Library:** @google/generative-ai v0.24.1
+- **Features:** 
+  - Sub-second response times
+  - Confidence scoring (0-100%)
+  - Priority classification (Critical/High/Medium/Low)
+  - Category-based insights (5 categories)
+  - Fallback logic for reliability
 
-**Extensible with:**
-- Google Cloud Healthcare Natural Language API
-- TensorFlow.js for advanced ML
-- Custom predictive models
+**AI Features:**
+- Processes hospital + environmental + prediction data
+- Generates 3-5 actionable insights per analysis
+- JSON-formatted structured output
+- Context-aware with historical learning
+- Healthcare-specific prompt engineering
+
+**Example Output:**
+```
+Type: Critical Alert
+Title: "Severe Air Quality Impact Expected"
+Confidence: 94%
+Action: Increase ICU capacity by 30%
+```
+
 
 ---
 
