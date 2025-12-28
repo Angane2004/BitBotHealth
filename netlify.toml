@@ -1,17 +1,15 @@
 [build]
-  command = "npm ci && npm run build"
+  command = "rm -rf node_modules .next && npm install && npm run build"
   publish = ".next"
 
 [build.environment]
   NODE_VERSION = "22"
-  NPM_FLAGS = "--legacy-peer-deps"
+  NPM_CONFIG_LEGACY_PEER_DEPS = "true"
+  # Force fresh install of native modules
+  npm_config_build_from_source = "true"
 
 [[plugins]]
   package = "@netlify/plugin-nextjs"
 
 [functions]
   node_bundler = "esbuild"
-
-# Force clean install to avoid native binding issues
-[build.processing]
-  skip_processing = false
