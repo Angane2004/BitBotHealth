@@ -442,20 +442,14 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 **SwasthyaSense Development Team**
 
-- Project Lead: [Your Name]
-- Frontend Developer: [Name]
-- Backend Developer: [Name]
-- UI/UX Designer: [Name]
+- Project Lead: Tanveer Angane
+- Frontend Developer: Anish Gawade
+- Backend Developer: Vivek Dalvi
+- UI/UX Designer: Sumedh Gadpayle
 
 ---
 
-## 📞 Support
 
-For support and questions:
-
-- **Email:** support@swasthyasense.com
-- **Documentation:** [docs.swasthyasense.com](https://docs.swasthyasense.com)
-- **Issues:** [GitHub Issues](https://github.com/yourusername/swasthyasense/issues)
 
 ---
 
@@ -485,7 +479,7 @@ For support and questions:
 ---
 
 <p align="center">
-  Made with ❤️ for better healthcare management
+  Made with ❤️ for better healthcare management by Team BitBot
 </p>
 
 <p align="center">
