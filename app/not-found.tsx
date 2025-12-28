@@ -1,20 +1,35 @@
-'use client';
+import Link from 'next/link';
 
 export default function NotFound() {
     return (
-        <div className="min-h-screen flex items-center justify-center bg-white dark:bg-black">
-            <div className="text-center space-y-6 p-8">
-                <h1 className="text-9xl font-bold text-black dark:text-white">404</h1>
-                <h2 className="text-2xl font-semibold text-black dark:text-white">Page Not Found</h2>
-                <p className="text-gray-600 dark:text-gray-400 max-w-md mx-auto">
-                    The page you're looking for doesn't exist or has been moved.
+        <div style={{
+            minHeight: '100vh',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            backgroundColor: 'white',
+            color: 'black'
+        }}>
+            <div style={{ textAlign: 'center', padding: '2rem' }}>
+                <h1 style={{ fontSize: '6rem', fontWeight: 'bold', margin: 0 }}>404</h1>
+                <h2 style={{ fontSize: '1.5rem', marginTop: '1rem' }}>Page Not Found</h2>
+                <p style={{ color: '#666', marginTop: '1rem' }}>
+                    The page you are looking for does not exist.
                 </p>
-                <a
+                <Link
                     href="/dashboard"
-                    className="inline-block px-6 py-3 bg-black dark:bg-white text-white dark:text-black rounded-lg hover:opacity-90 transition-opacity"
+                    style={{
+                        display: 'inline-block',
+                        marginTop: '1.5rem',
+                        padding: '12px 24px',
+                        backgroundColor: 'black',
+                        color: 'white',
+                        borderRadius: '8px',
+                        textDecoration: 'none'
+                    }}
                 >
                     Return to Dashboard
-                </a>
+                </Link>
             </div>
         </div>
     );
