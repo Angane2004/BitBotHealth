@@ -55,7 +55,7 @@ export function LocationSelector() {
                     <span className="hidden sm:inline">
                         {location?.city || 'Select Location'}
                     </span>
-                    <ChevronDown className="h-3 w-3 opacity-50" />
+                    <ChevronDown className="h-3 w-3" />
                 </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="w-56">
