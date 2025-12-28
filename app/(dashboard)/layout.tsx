@@ -3,7 +3,6 @@
 import { useState } from 'react';
 import { Sidebar } from '@/components/layout/sidebar';
 import { Header } from '@/components/layout/header';
-import { AIAssistant } from '@/components/ai-assistant';
 
 export default function DashboardLayout({
     children,
@@ -60,9 +59,6 @@ export default function DashboardLayout({
                     onClick={() => setSidebarOpen(false)}
                 />
             )}
-
-            {/* AI Assistant - Floating Chat */}
-            <AIAssistant />
         </div>
     );
 }
